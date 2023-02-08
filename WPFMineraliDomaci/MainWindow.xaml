@@ -34,23 +34,23 @@
             </Grid.RowDefinitions>
             <Label Content="Naziv minerala:" Grid.Row="1" Margin="0,15,100,15">
             </Label>
-            <TextBox Margin="100,15,100,15" Grid.Row="1">
+            <TextBox Margin="100,15,100,15" Grid.Row="1" Name="tbxNaziv">
             </TextBox>
             <Label Content="Kompozicija:" Grid.Row="2" Margin="0,15,100,15">
             </Label>
-            <TextBox Margin="100,15,100,15" Grid.Row="2">
+            <TextBox Margin="100,15,100,15" Grid.Row="2" Name="tbxKompozicija">
             </TextBox>
             <Label Content="Kristalni oblik:" Grid.Row="3" Margin="0,15,100,15">
             </Label>
-            <TextBox Margin="100,15,100,15" Grid.Row="3">
+            <TextBox Margin="100,15,100,15" Grid.Row="3" Name="tbxOblik">
             </TextBox>
             <Label Content="Tvrdoca:" Grid.Row="4" Margin="0,15,100,15">
             </Label>
-            <TextBox Margin="100,15,100,15" Grid.Row="4">
+            <TextBox Margin="100,15,100,15" Grid.Row="4" Name="tbxTvrdoca">
             </TextBox>
             <Label Content="Boja:" Grid.Row="5" Margin="0,15,100,15">
             </Label>
-            <TextBox Margin="100,15,100,15" Grid.Row="5">
+            <TextBox Margin="100,15,100,15" Grid.Row="5" Name="tbxBoja">
             </TextBox>
             <Button Width="auto" Height="auto" Content="Unesite mineral" Padding="3,3,3,3" Margin="150,15,150,15" Grid.Row="6" Click="UnesiteMineral_Click">
             </Button>

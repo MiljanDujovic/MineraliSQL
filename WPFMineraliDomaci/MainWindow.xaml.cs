@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Xml.Linq;
 using WPFMineraliDomaci.ViewModel;
+using System.Data.Common;
 
 namespace WPFMineraliDomaci {
 	/// <summary>
@@ -27,11 +28,27 @@ namespace WPFMineraliDomaci {
 		public MainWindow() {
 			InitializeComponent();
 		}
-		
-		private void UnesiteMineral_Click(object sender, RoutedEventArgs e) {
 
+		private void UnesiteMineral_Click(object sender, RoutedEventArgs e) {
+			try {
+				SqlConnection sqlConnection = new SqlConnection(connectionString);
+				var Naziv = tbxNaziv.Text;
+				var Kompozicija = tbxKompozicija.Text;
+				var Oblik = tbxOblik.Text;
+				var Tvrdoca = tbxTvrdoca.Text;
+				var Boja = tbxBoja.Text;
+				sqlConnection.Open();
+				if ( Naziv != null && Kompozicija != null &&  Oblik != null && Tvrdoca != null && Boja != null) {
+				SqlCommand command = new SqlCommand($"INSERT INTO Minerali_Tabela (Naziv, Kompozicija, KristalniOblik, Tvrdoca, Boja) VALUES ('{Naziv}', '{Kompozicija}', '{Oblik}', '{Tvrdoca}', '{Boja}');", sqlConnection);
+				SqlDataReader reader = command.ExecuteReader();
+				MessageBox.Show($"Nov mineral je dodat u listu! {Naziv.ToUpper()}");
+				}
+				sqlConnection.Close();
+			}
+			catch (Exception ex) {
+				MessageBox.Show(ex.ToString());
+			}
 		}
-		
 		private void PrikaziteListuMinerala_Click(object sender, RoutedEventArgs e) {
 			
 			try {
@@ -53,7 +70,7 @@ namespace WPFMineraliDomaci {
 				}
 				
 				sqlConnection.Close();
-				ListaMinerala.DataContext = null;
+				
 				ListaMinerala.DataContext = Mminerali;
 			}
 			catch (Exception ex) {
@@ -63,7 +80,22 @@ namespace WPFMineraliDomaci {
 
 		}
 		private void ObrisiSaListe_Click(object sender, RoutedEventArgs e) {
-
+			try {
+				SqlConnection sqlConnection = new SqlConnection(connectionString);
+				
+				sqlConnection.Open();
+				
+					SqlCommand command = new SqlCommand($"DELETE FROM Minerali_Tabela WHERE Naziv = '{tbxNaziv.Text}'", sqlConnection);
+					SqlDataReader reader = command.ExecuteReader();
+					MessageBox.Show($"Mineral koji ste obrisali: {tbxNaziv.Text.ToUpper()}");
+				
+				sqlConnection.Close();
+			}
+			catch (Exception ex) {
+				MessageBox.Show(ex.ToString());
+			}
 		}
+
+		
 	}
 }

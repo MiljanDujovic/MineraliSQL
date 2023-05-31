@@ -59,14 +59,14 @@
             <Button Width="auto" Height="auto" Content="Obrisi sa liste" Padding="3,3,3,3" Margin="150,15,150,15" Grid.Row="8" Click="ObrisiSaListe_Click">
             </Button>
         </Grid>
-        <DataGrid Grid.Row="1" Grid.Column="1" Background="LightGray" Name="ListaMinerala" ItemsSource="{Binding Minerali}" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="1" Grid.Column="1" Background="LightGray" Name="ListaMinerala" ItemsSource="{Binding Minerali}" AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"/>
                 <DataGridTextColumn Header="Kompozicija" Binding="{Binding Kompozicija}"/>
                 <DataGridTextColumn Header="KristalniOblik"  Binding="{Binding KristalniOblik}"/>
                 <DataGridTextColumn Header="Tvrdoca" Binding="{Binding Tvrdoca}"/>
-                <DataGridTextColumn Header="Boja" Binding="{Binding Boja}"/>
+                <DataGridTextColumn Header="Boja" Binding="{Binding Boja}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
         

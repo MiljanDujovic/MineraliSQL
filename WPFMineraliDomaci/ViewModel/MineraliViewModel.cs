@@ -11,6 +11,7 @@ namespace WPFMineraliDomaci.ViewModel {
 		public MineraliViewModel() {
 			Minerali = new List<Mineral>();
 			
+			
 		}
 	}
 }

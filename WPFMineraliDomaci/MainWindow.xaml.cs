@@ -29,34 +29,14 @@ namespace WPFMineraliDomaci {
 			InitializeComponent();
 		}
 
-		private void UnesiteMineral_Click(object sender, RoutedEventArgs e) {
-			try {
-				SqlConnection sqlConnection = new SqlConnection(connectionString);
-				var Naziv = tbxNaziv.Text;
-				var Kompozicija = tbxKompozicija.Text;
-				var Oblik = tbxOblik.Text;
-				var Tvrdoca = tbxTvrdoca.Text;
-				var Boja = tbxBoja.Text;
-				sqlConnection.Open();
-				if ( Naziv != null && Kompozicija != null &&  Oblik != null && Tvrdoca != null && Boja != null) {
-				SqlCommand command = new SqlCommand($"INSERT INTO Minerali_Tabela (Naziv, Kompozicija, KristalniOblik, Tvrdoca, Boja) VALUES ('{Naziv}', '{Kompozicija}', '{Oblik}', '{Tvrdoca}', '{Boja}');", sqlConnection);
-				SqlDataReader reader = command.ExecuteReader();
-				MessageBox.Show($"Nov mineral je dodat u listu! {Naziv.ToUpper()}");
-				}
-				sqlConnection.Close();
-			}
-			catch (Exception ex) {
-				MessageBox.Show(ex.ToString());
-			}
-		}
-		private void PrikaziteListuMinerala_Click(object sender, RoutedEventArgs e) {
+		public void RefreshujTabelu() {
+
 			
 			try {
 				SqlConnection sqlConnection = new SqlConnection(connectionString);
 				sqlConnection.Open();
-				SqlCommand command = new SqlCommand("SELECT Id, Naziv, Kompozicija, KristalniOblik, Tvrdoca, Boja FROM Minerali_Tabela;", sqlConnection);
+				SqlCommand command = new SqlCommand("SELECT * FROM Minerali_Tabela;", sqlConnection);
 				SqlDataReader reader = command.ExecuteReader();
-				
 				while (reader.Read()) {
 					var id = reader.GetInt32(0);
 					string naziv = reader.GetString(1);
@@ -66,20 +46,74 @@ namespace WPFMineraliDomaci {
 					var boja = reader.GetString(5);
 					var mineral = new Mineral(id, naziv, kompozicija, kristalniOblik, tvrdoca, boja);
 					Mminerali.Minerali.Add(mineral);
-					
 				}
-				
 				sqlConnection.Close();
-				
-				ListaMinerala.DataContext = Mminerali;
+
+
+
+				ListaMinerala.Items.Refresh();
+
+
 			}
 			catch (Exception ex) {
 				MessageBox.Show(ex.ToString());
 			}
-			
 
 		}
-		private void ObrisiSaListe_Click(object sender, RoutedEventArgs e) {
+		private void UnesiteMineral_Click(object sender, RoutedEventArgs e) {
+			try {
+				SqlConnection sqlConnection = new SqlConnection(connectionString);
+				var Naziv = tbxNaziv.Text;
+				var Kompozicija = tbxKompozicija.Text;
+				var Oblik = tbxOblik.Text;
+				var Tvrdoca = tbxTvrdoca.Text;
+				var Boja = tbxBoja.Text;
+				sqlConnection.Open();
+				if (Naziv != null && Kompozicija != null && Oblik != null && Tvrdoca != null && Boja != null) {
+					SqlCommand command = new SqlCommand($"INSERT INTO Minerali_Tabela (Naziv, Kompozicija, KristalniOblik, Tvrdoca, Boja) VALUES ('{Naziv}', '{Kompozicija}', '{Oblik}', '{Tvrdoca}', '{Boja}');", sqlConnection);
+					SqlDataReader reader = command.ExecuteReader();
+					MessageBox.Show($"Nov mineral je dodat u listu! {Naziv.ToUpper()}");
+				}
+				sqlConnection.Close();
+			}
+			catch (Exception ex) {
+				MessageBox.Show(ex.ToString());
+			}
+			//RefreshujTabelu();
+		}
+		private void PrikaziteListuMinerala_Click(object sender, RoutedEventArgs e) {
+
+
+			try {
+				SqlConnection sqlConnection = new SqlConnection(connectionString);
+				sqlConnection.Open();
+				SqlCommand command = new SqlCommand("SELECT * FROM Minerali_Tabela;", sqlConnection);
+				SqlDataReader reader = command.ExecuteReader();
+				Mminerali.Minerali.Clear();
+				while (reader.Read()) {
+					var id = reader.GetInt32(0);
+					string naziv = reader.GetString(1);
+					var kompozicija = reader.GetString(2);
+					var kristalniOblik = reader.GetString(3);
+					var tvrdoca = reader.GetInt32(4);
+					var boja = reader.GetString(5);
+					var mineral = new Mineral(id, naziv, kompozicija, kristalniOblik, tvrdoca, boja);
+					Mminerali.Minerali.Add(mineral);
+				}
+				sqlConnection.Close();
+
+				
+				ListaMinerala.DataContext = Mminerali;
+				ListaMinerala.Items.Refresh();
+			
+
+			}
+				
+			catch (Exception ex) {
+				MessageBox.Show(ex.ToString());
+			}
+		}
+	private void ObrisiSaListe_Click(object sender, RoutedEventArgs e) {
 			try {
 				SqlConnection sqlConnection = new SqlConnection(connectionString);
 				
@@ -94,7 +128,9 @@ namespace WPFMineraliDomaci {
 			catch (Exception ex) {
 				MessageBox.Show(ex.ToString());
 			}
+			//RefreshujTabelu();
 		}
+
 
 		
 	}
